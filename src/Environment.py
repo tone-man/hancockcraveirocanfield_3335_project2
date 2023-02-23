@@ -29,13 +29,13 @@ for i in range(8):
 # label1 = tk.Label(image = ImageTk.PhotoImage(img))
 
 
-labels[0].place(x = 100, y = 100) # First Image
-labels[1].place(x = 400, y = 100) # second
-labels[2].place(x = 700, y = 100) # third
-labels[3].place(x = 1000, y = 100) # fourth
-labels[4].place(x = 100, y = 400)
-labels[5].place(x = 400, y = 400)
-labels[6].place(x = 700, y = 400)
-labels[7].place(x = 1000, y = 400)
+labels[0].place(x = 100, y = 100) # First image, prints four across then 4 across on a second row.
+labels[1].place(x = 400, y = 100) # Second
+labels[2].place(x = 700, y = 100) # Third
+labels[3].place(x = 1000, y = 100) # Fourth
+labels[4].place(x = 100, y = 400) # Fifth
+labels[5].place(x = 400, y = 400) # Sixth
+labels[6].place(x = 700, y = 400) # Seventh
+labels[7].place(x = 1000, y = 400) # Eighth
 
 windoe.mainloop() 
