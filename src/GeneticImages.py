@@ -9,6 +9,7 @@ class GeneticImages:
     self.mutationRate
     # self.combinationMode for later
     self.evolutionStep
+    self.fitnessFunction
 
     def __init__():
         self.population = []
@@ -26,6 +27,9 @@ class GeneticImages:
         return self.evolutionStep
     
     def setPopulationSize():
+        pass
+
+    def setFitnessFunction():
         pass
 
     def __calcFittness():
