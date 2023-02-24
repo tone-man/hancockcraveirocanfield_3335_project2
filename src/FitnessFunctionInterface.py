@@ -1,0 +1,4 @@
+
+
+def calcFitness(m):
+    pass
