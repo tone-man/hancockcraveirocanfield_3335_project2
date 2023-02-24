@@ -1,3 +1,5 @@
+from FitnessFunctionInterface import FitnessFunctionInterface
+from PIL import Image
 
 class GeneticImages:
     '''
@@ -11,11 +13,12 @@ class GeneticImages:
     self.evolutionStep
     self.fitnessFunction
 
-    def __init__():
+    def __init__(f: FitnessFunctionInterface):
         self.population = []
         self.mixNumber = 2
         self.mutationRate = 0.01
         self.evolutionStep = 0
+        self.fitnessFunction = f.calcFittness
 
     def getPopulation():
         return self.population
@@ -32,8 +35,8 @@ class GeneticImages:
     def setFitnessFunction():
         pass
 
-    def __calcFittness():
-        return 0
+    def __calcFittness(m : Image):
+        return self.fitnessFunction(m)
     
     def __selectParent():
         pass

@@ -1,4 +1,4 @@
+class FitnessFunctionInterface:
 
-
-def calcFitness(m):
-    pass
+    def calcFitness(m):
+        pass
