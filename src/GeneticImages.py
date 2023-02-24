@@ -13,12 +13,22 @@ class GeneticImages:
     self.evolutionStep
     self.fitnessFunction
 
-    def __init__(f: FitnessFunctionInterface):
+    def __init__(f: FitnessFunctionInterface, p: int):
         self.population = []
         self.mixNumber = 2
         self.mutationRate = 0.01
         self.evolutionStep = 0
         self.fitnessFunction = f.calcFittness
+
+        for i in range(p):
+            m = Image.new(mode="RGB", size= ( 200, 200 ), color= (255 , 255, 255))
+
+            for x in range(200):
+                for y in range(200):
+                    m.putpixel(xy = (x,y), value = __randPix())
+            
+            self.population.append(m)
+
 
     def getPopulation():
         return self.population
@@ -35,7 +45,7 @@ class GeneticImages:
     def setFitnessFunction():
         pass
 
-    def __calcFittness(m : Image):
+    def __calcFittness(m: Image) -> float:
         return self.fitnessFunction(m)
     
     def __selectParent():
@@ -49,3 +59,8 @@ class GeneticImages:
 
     def __step():
         pass
+
+    def __randPix(p: int):
+        return (random.randint(0,255) , random.randint(0,255), random.randint(0,255) )
+
+
