@@ -18,7 +18,7 @@ for x in range(width):
 #check if pixels are white at a radius of 10 from the center
 for x in range(width):
     for y in range(height):
-        if (x-center[0])**2 + (y-center[1])**2 < 2**2:
+        if (x-center[0])**2 + (y-center[1])**2 < 10**2:
             if img.getpixel( (x,y) ) != (255,255,255):
                 numpixels += 1
 
