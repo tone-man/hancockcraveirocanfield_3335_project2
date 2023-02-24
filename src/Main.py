@@ -7,5 +7,4 @@ f = ff.CircleFitnessFunction()
 g = GeneticImages.GeneticImages(f, 8)
 
 p = g.getPopulation()
-
 p[0].show()

@@ -34,11 +34,11 @@ class GeneticImages:
     def getStep(self):
         return self.evolutionStep
     
-    def setPopulationSize(self):
-        pass
+    #def setPopulationSize(self):
+        #pass
 
-    def setFitnessFunction(self):
-        pass
+    #def setFitnessFunction(self):
+        #pass
 
     def __calcFittness(self, m: Image) -> float:
         return self.fitnessFunction(m)
@@ -53,7 +53,24 @@ class GeneticImages:
         pass
 
     def __step(self):
-        pass
+        population2 = [] #new array to hold offspring 
+        fitness = [] #parrallel array of fitness values
+        weights = [] #parrallel array of chances to provide offspring
+
+        for m in self.population: #calculate fitness for members
+            fitness.append(self.__calcFittness(m))
+
+        #addweighting here
+
+        for m in self.population:
+            c = self.__crossMembers(self.__selectParent(), __selectParent())
+            self.__mutate(c)
+
+            population2.append(c)
+
+        self.population = population2    
+        self.evolutionStep += 1
+
 
     def __randPix(self):
         return (random.randint(0,255) , random.randint(0,255), random.randint(0,255) )
