@@ -6,5 +6,5 @@ import PIL
 f = ff.CircleFitnessFunction()
 g = GeneticImages.GeneticImages(f, 8)
 
-p = g.getPopulation()
+p = g.get_population()
 p[0].show()
