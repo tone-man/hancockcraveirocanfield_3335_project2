@@ -150,7 +150,6 @@ class GeneticImages:
                 #Get Fitness value
                 f_val = sort_fit[x]
                 #Find value in the fitness array, this isnt perfect and needs work
-                print(f_val, self.fitness.index(f_val))
                 population2.append(self.population[self.fitness.index(f_val)])
             
         while len(population2) < self.pop_size:
@@ -164,6 +163,8 @@ class GeneticImages:
 
         self.population = population2    
         self.evolution_step += 1
+        
+        print("Step", self.evolution_step, " Complete!")
 
 
     def __fix_fittness(self):
