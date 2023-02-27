@@ -9,13 +9,13 @@ class GeneticImages:
     '''
 
     def __init__(self, f: FitnessFunctionInterface, p: int):
-        self.population = [] #List of dictionaries
-        self.fitness = [] #parrallel array of fitness values
+        self.population = [None] * p #List of dictionaries
+        self.fitness = [None] * p #parrallel array of fitness values
         self.pop_size = p
         self.mix_number = 2
         self.mutation_rate = 0.01
         self.evolution_step = 0
-        self.fitness_func = f.calcFitness
+        self.fitness_func = f
         self.IMAGE_SIZE = 200
 
         for i in range(self.pop_size):
@@ -25,7 +25,7 @@ class GeneticImages:
                 for y in range(200):
                     m.putpixel(xy = (x,y), value = self.__rand_pix())
             
-            self.population.append(m)
+            self.population[i] = m
 
     def get_population(self):
         return self.population
@@ -36,8 +36,9 @@ class GeneticImages:
     def get_step(self):
         return self.evolutionStep
     
-    def step(self):
-        self.__step()
+    def step(self, n: int = 1):
+        for x in range(n):
+            self.__step()
     
     #def setPopulationSize(self):
         #pass
@@ -46,19 +47,20 @@ class GeneticImages:
         #pass
 
     def __calc_fittness(self, m: Image) -> float:
-        return self.fitness_func(m)
+        return self.fitness_func.calc_fitness(m)
     
     def __calc_weights(self) -> list:
         
         weights = []
         sum_f = 0
-        cur_f = 0
         
+        #Summation of all fitness
         for f in range(self.pop_size):
             sum_f += self.fitness[f]
-
+            
+        #Divide fitness of individual by total fitness to get roullette selection
         for f in range(self.pop_size):
-            weights.append(cur_f/sum_f)
+            weights.append(self.fitness[f]/sum_f)
 
         return weights
             
@@ -72,17 +74,23 @@ class GeneticImages:
         
         parents = []
         for p in range(self.mix_number):
+            parent = None
             r = random.random()
 
             for i in range(len(prob_t) - 1):
                 if r >= prob_t[i] and r < prob_t[i + 1]:
-                    parents.append(self.population[i])
-        
+                    parent = self.population[i]
+            
+            if parent == None:
+                parent = self.population[len(prob_t) - 1]
+
+            parents.append(parent)
+            
         return parents
 
     def __cross_members(self, p: list):
         
-        w = self.IMAGE_SIZE / self.mix_number
+        w = int(self.IMAGE_SIZE / self.mix_number)
         
         left = 0
         upper = 0
@@ -101,29 +109,54 @@ class GeneticImages:
     def __mutate(self, c: Image):
         
         for i in range(10):
-            x = random.randint(0, 200)
-            y = random.randint(0, 200)
+            x = random.randint(0, 199)
+            y = random.randint(0, 199)
         
-            c.putpixel(xy=(x,y), value = self.__rand_pix())
+            c.putpixel(xy=(x,y), value = (255, 255, 255))
 
     def __step(self):
         population2 = [] #new array to hold offspring 
 
-        for m in self.population: #calculate fitness for members
-            fitness.append(self.__calc_fittness(m))
+        for m in range(self.pop_size): #calculate fitness for members
+            self.fitness[m] = (self.__calc_fittness(self.population[m]))
 
+        if(self.fitness_func.is_neg()):
+            self.__fix_fittness()
+        
+        print("Fitness :", self.fitness)
+        
         weights = self.__calc_weights()
 
+        print("Weights :", weights)
         for m in self.population:
             parents = self.__select_parents(weights)
+            print("Parents : ", len(parents))
             c = self.__cross_members(parents)
             self.__mutate(c)
 
             population2.append(c)
 
         self.population = population2    
-        self.evolutionStep += 1
+        self.evolution_step += 1
 
 
+    def __fix_fittness(self):
+        low = self.fitness[0]
+        
+        #Find lowest fitness
+        for f in self.fitness:
+            low = min(f, low)
+        #Flip min fitness if negative
+        if low < 0:
+            low *= -1
+        
+        #Add lowest fitness to all values
+        for i in range(len(self.fitness)):
+            self.fitness[i] += low
+            
+            #if 0 increment by negligble amount
+            if self.fitness[i] == 0:
+                self.fitness[i] += 0.00001
+            
     def __rand_pix(self):
         return (random.randint(0,255) , random.randint(0,255), random.randint(0,255) )

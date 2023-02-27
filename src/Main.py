@@ -7,7 +7,6 @@ f = ff.CircleFitnessFunction()
 g = GeneticImages.GeneticImages(f, 8)
 
 p = g.get_population()
-p[0].show()
-g.step()
+g.step(1000)
 p = g.get_population()
 p[0].show()

@@ -4,7 +4,7 @@ import math
 
 class CircleFitnessFunction(FitnessFunctionInterface):
 
-    def calcFitness(m : Image) -> float:
+    def calc_fitness(self, m : Image) -> float:
         dfc = []
         fits = []
         sz = m.size
@@ -22,4 +22,8 @@ class CircleFitnessFunction(FitnessFunctionInterface):
             fits.append(fitnesshere)
         
         fitness = max(fits)
+        
         return fitness
+    
+    def is_neg(self):
+        return True
