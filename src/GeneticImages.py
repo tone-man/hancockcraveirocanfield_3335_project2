@@ -16,9 +16,10 @@ class GeneticImages:
         self.mutation_rate = 0.01
         self.evolution_step = 0
         self.fitness_func = f.calcFitness
+        self.IMAGE_SIZE = 200
 
         for i in range(self.pop_size):
-            m = Image.new(mode="RGB", size= ( 200, 200 ), color= (255 , 255, 255))
+            m = Image.new(mode="RGB", size= (self.IMAGE_SIZE, self.IMAGE_SIZE ), color= (255 , 255, 255))
 
             for x in range(200):
                 for y in range(200):
@@ -34,6 +35,9 @@ class GeneticImages:
 
     def get_step(self):
         return self.evolutionStep
+    
+    def step(self):
+        self.__step()
     
     #def setPopulationSize(self):
         #pass
@@ -76,12 +80,29 @@ class GeneticImages:
         
         return parents
 
+    def __cross_members(self, p: list):
+        
+        w = self.IMAGE_SIZE / self.mix_number
+        
+        left = 0
+        upper = 0
+        right = w
+        lower = self.IMAGE_SIZE
+        composite = Image.new("RGB", (self.IMAGE_SIZE, self.IMAGE_SIZE), "white")
 
-    def __cross_members(self, p):
-        pass
+        for i in range(self.mix_number):
+            crop = p[i].crop((left, upper, right, lower)) 
+            composite.paste(crop, (left, upper, right, lower))
+            right += w
+            
 
-    def __mutate(self, c):
-        pass
+    def __mutate(self, c: Image):
+        
+        for i in range(10):
+            x = random.randint(0, 200)
+            y = random.randint(0, 200)
+        
+            c.putpixel(xy=(x,y), value = self.__rand_pix())
 
     def __step(self):
         population2 = [] #new array to hold offspring 
