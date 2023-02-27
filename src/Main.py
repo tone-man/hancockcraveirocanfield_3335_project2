@@ -1,4 +1,4 @@
-import ViewController as vc
+import View as v
 import GeneticImages
 import FitnessFunctions as ff
 import PIL
@@ -6,7 +6,8 @@ import PIL
 f = ff.CircleFitnessFunction()
 g = GeneticImages.GeneticImages(f, 8)
 
-p = g.get_population()
-g.step(500)
-p = g.get_population()
-p[0].show()
+v.initGUI(g)
+#p = g.get_population()
+#g.step(500)
+#p = g.get_population()
+#p[0].show()
