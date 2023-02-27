@@ -117,7 +117,7 @@ class GeneticImages:
 
     def __mutate(self, c: Image):
         
-        for i in range(10):
+        for i in range(1000):
             x = random.randint(0, 199)
             y = random.randint(0, 199)
         
@@ -131,9 +131,12 @@ class GeneticImages:
             self.fitness[m] = (self.__calc_fittness(self.population[m]))
 
         #check fitness is valid for weighting
+        print("Fittness :", self.fitness)
+        
         if(self.fitness_func.is_neg()):
             self.__fix_fittness()
-        print("Fitness :", self.fitness)
+            print("Adjusted Fittness :", self.fitness)
+        
         
         #weight fitness for roulette selection
         weights = self.__calc_weights()
@@ -153,6 +156,8 @@ class GeneticImages:
         while len(population2) < self.pop_size:
             parents = self.__select_parents(weights)
             c = self.__cross_members(parents)
+            
+            
             self.__mutate(c)
 
             population2.append(c)
