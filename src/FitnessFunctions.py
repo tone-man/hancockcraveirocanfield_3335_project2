@@ -22,4 +22,4 @@ class CircleFitnessFunction(FitnessFunctionInterface):
             fits.append(fitnesshere)
         
         fitness = max(fits)
-        print(fitness)
+        return fitness
