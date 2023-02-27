@@ -8,3 +8,6 @@ g = GeneticImages.GeneticImages(f, 8)
 
 p = g.get_population()
 p[0].show()
+g.step()
+p = g.get_population()
+p[0].show()

@@ -94,6 +94,8 @@ class GeneticImages:
             crop = p[i].crop((left, upper, right, lower)) 
             composite.paste(crop, (left, upper, right, lower))
             right += w
+        
+        return composite
             
 
     def __mutate(self, c: Image):
