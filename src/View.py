@@ -21,7 +21,8 @@ def initGUI(g):
         labels = []
 
         for i in range(8):
-            label = tk.Label(image = ImageTk.PhotoImage(Image.new(mode = "P", size = (200, 200), color = (255, 255, 255))))
+            img = ImageTk.PhotoImage(g.get_population()[i])
+            label = tk.Label(image = img)
             labels.append(label)
 
         # reference
@@ -43,7 +44,14 @@ def initGUI(g):
         steplbl.place(x = 380, y = 645)
         stepcounter = tk.Spinbox(windoe, from_ = 1, to = 1000, width = 5, font = my_font1)
         stepcounter.place(x = 480, y = 645)
-        gobutton = tk.Button(windoe, text = 'Go', width = 10, font = my_font1, command = lambda: g.step(int(stepcounter.get())))
+        gobutton = tk.Button(windoe, text = 'Go', width = 10, font = my_font1, command = lambda: button_click(stepcounter, g, labels))
         gobutton.place(x = 575, y = 630)
         windoe.mainloop() 
 
+def button_click(sc, g, labels):
+    g.step(int(sc.get()))
+    p = g.get_population()
+    for i in range(8):
+        img = ImageTk.PhotoImage(p[i])
+        labels[i].configure(image = img)
+        labels[i].image = img
