@@ -26,9 +26,9 @@ class CircleFitnessFunction(FitnessFunctionInterface):
             all_pix = len(pix)
             num = 0 #number of pixels in a given band
             
-            for dist in pix:
+            for dist in pix:    
                 if dist >= i and dist < (i + band_size):
-                    num += 0
+                    num += 1
                     
             cur_fit = num - (all_pix - num)
             
