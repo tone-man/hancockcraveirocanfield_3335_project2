@@ -45,11 +45,11 @@ def initGUI(g):
         steplbl.place(x = 380, y = 645)
         stepcounter = tk.Spinbox(windoe, from_ = 1, to = 1000, width = 5, font = my_font1)
         stepcounter.place(x = 480, y = 645)
-        gobutton = tk.Button(windoe, text = 'Go', width = 10, font = my_font1, command = lambda: button_click(stepcounter, g, labels))
+        gobutton = tk.Button(windoe, text = 'Go', width = 10, font = my_font1, command = lambda: button_click(stepcounter, g, labels, windoe))
         gobutton.place(x = 575, y = 630)
         windoe.mainloop() 
 
-def button_click(sc, g, labels):
+def button_click(sc, g, labels, windoe):
     
     for i in range(int(sc.get())):
         g.step(1)
@@ -60,4 +60,4 @@ def button_click(sc, g, labels):
             img = ImageTk.PhotoImage(p[i])
             labels[i].configure(image = img)
             labels[i].image = img
-        
+        windoe.update()
