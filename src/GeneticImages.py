@@ -133,27 +133,22 @@ class GeneticImages:
                     else:
                         c.putpixel(xy=(x, y), value= self.__rand_pix())                
                     
-        #for i in range(1000):
-            #x = random.randint(0, 199)
-            #y = random.randint(0, 199)
-        
-            #c.putpixel(xy=(x,y), value = (255, 255, 255))
-        
-        for i in range(1000):
-            x = random.randint(0, 199)
-            y = random.randint(0, 199)
-            x_off = random.randint(-1, 1)
-            y_off = random.randint(-1, 1)
-            pix = c.getpixel(xy=(x,y))
+        #shift pixels around
+        for x in range(c.size[0]):
+            for y in range(c.size[1]):
             
-            if x + x_off < 0 or x + x_off >= self.IMAGE_SIZE:
-                x_off = 0
-            if y + y_off < 0 or y + y_off >= self.IMAGE_SIZE:
-                y_off = 0
-            
-            temp = c.getpixel(xy=(x + x_off, y + y_off))
-            c.putpixel(xy=(x + x_off, y + y_off), value=pix)
-            c.putpixel(xy=(x, y), value=temp)
+                x_off = random.randint(-1, 1)
+                y_off = random.randint(-1, 1)
+                pix = c.getpixel(xy=(x,y))
+                
+                if x + x_off < 0 or x + x_off >= self.IMAGE_SIZE:
+                    x_off = 0
+                if y + y_off < 0 or y + y_off >= self.IMAGE_SIZE:
+                    y_off = 0
+                
+                temp = c.getpixel(xy=(x + x_off, y + y_off))
+                c.putpixel(xy=(x + x_off, y + y_off), value=pix)
+                c.putpixel(xy=(x, y), value=temp)
 
     def __step(self):
         population2 = [] #new array to hold offspring 
@@ -177,13 +172,19 @@ class GeneticImages:
         #check to see if elitism is enabled
         if self.elitism_enabled:
             sort_fit = sorted(self.fitness)
+            selected = []
             
             for x in range(self.pop_size - 1 , (self.pop_size - 1) - self.elite_count, -1):
-                #Get Fitness value
+                #Get Fitness value and find pos in normal fitness array
                 f_val = sort_fit[x]
-                #Find value in the fitness array, this isnt perfect and needs work
-                population2.append(self.population[self.fitness.index(f_val)])
-            
+                pos = self.fitness.index(f_val)
+                
+                #Ensure pos has not already been added
+                while selected.count(pos) > 0:
+                    pos = self.fitness.index(value)
+                    
+                population2.append(self.population[pos])
+                
         while len(population2) < self.pop_size:
             parents = self.__select_parents(weights)
             c = self.__cross_members(parents)
