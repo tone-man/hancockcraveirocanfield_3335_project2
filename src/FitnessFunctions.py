@@ -1,4 +1,4 @@
-from FitnessFunctionInterface import FitnessFunctionInterface
+from FunctionInterfaces import FitnessFunctionInterface
 from PIL import Image
 import math
 
@@ -22,15 +22,22 @@ class CircleFitnessFunction(FitnessFunctionInterface):
         pix.sort()
         
         #Calculate Fitness at given Bands
-        for i in range(10, 100, band_size):
+        for i in range(10, 50, band_size):
             all_pix = len(pix)
             num = 0 #number of pixels in a given band
             
             for dist in pix:    
                 if dist >= i and dist < (i + band_size):
                     num += 1
+            
+            #calculate approximation of num pixels to fill this ring        
+            approx_col = math.pi * (pow(i + band_size, 2) - pow(i ,2))
+            int(approx_col)
+            
+            #approximate number of pixels that should be outside this ring
+            approx_white = (m.size[0] * m.size[1]) - approx_col
                     
-            cur_fit = num - (all_pix - num)
+            cur_fit = (num / approx_col) - ((all_pix - num) / approx_white)
             #print("Band:", i, "Values: ", all_pix, num, cur_fit)
             
             if not fitness:

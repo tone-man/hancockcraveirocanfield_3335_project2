@@ -1,4 +1,4 @@
-from FitnessFunctionInterface import FitnessFunctionInterface
+from FunctionInterfaces import FitnessFunctionInterface
 from PIL import Image
 import random
 
@@ -13,7 +13,8 @@ class GeneticImages:
         self.fitness = [None] * p #parrallel array of fitness values
         self.pop_size = p
         self.mix_number = 2
-        self.mutation_rate = 0.01
+        self.mutation_chance = 0.75 #Odds of single gene flipping
+        self.mutation_rate = 0.1 #Odds of a child being born with mutation
         self.evolution_step = 0
         self.fitness_func = f
         self.IMAGE_SIZE = 200
@@ -111,17 +112,49 @@ class GeneticImages:
             crop = p[i].crop((left, upper, right, lower)) 
             composite.paste(crop, (left, upper, right, lower))
             right += w
+            left += w
         
         return composite
             
 
     def __mutate(self, c: Image):
         
-        for i in range(1000):
-            x = random.randint(0, 199)
-            y = random.randint(0, 199)
+        for x in range(c.size[0]):
+            for y in range(c.size[1]):
+                r = random.random()
+                
+                #if pix gets lucky
+                if r < self.mutation_chance:
+                    pix = c.getpixel(xy=(x, y))
+
+                    #Non white pixels -> white
+                    if pix[0] != 255 or pix[1] != 255 or pix[2] != 255:
+                        c.putpixel(xy=(x, y), value=(255,255,255))
+                    else:
+                        c.putpixel(xy=(x, y), value= self.__rand_pix())
+                        
+                        
+                    
+        #for i in range(1000):
+            #x = random.randint(0, 199)
+            #y = random.randint(0, 199)
         
-            c.putpixel(xy=(x,y), value = (255, 255, 255))
+            #c.putpixel(xy=(x,y), value = (255, 255, 255))
+        
+        #for i in range(1000):
+            #x = random.randint(0, 199)
+            #y = random.randint(0, 199)
+            #x_off = random.randint(-1, 1)
+            #y_off = random.randint(-1, 1)
+            #pix = c.getpixel(xy=(x,y))
+            
+            #if x + x_off < 0 or x + x_off >= self.IMAGE_SIZE:
+                #x_off = 0
+            #if y + y_off < 0 or y + y_off >= self.IMAGE_SIZE:
+                #y_off = 0
+            
+            #c.putpixel(xy=(x + x_off, y + y_off), value=pix)
+            #c.putpixel(xy=(x, y), value=(255, 255,255))
 
     def __step(self):
         population2 = [] #new array to hold offspring 
@@ -156,8 +189,8 @@ class GeneticImages:
             parents = self.__select_parents(weights)
             c = self.__cross_members(parents)
             
-            
-            self.__mutate(c)
+            if random.random() < self.mutation_rate:
+                self.__mutate(c)
 
             population2.append(c)
 

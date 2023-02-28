@@ -1,5 +1,6 @@
 
 import tkinter as tk
+import time
 from tkinter import *
 from tkinter import filedialog
 from tkinter.filedialog import askopenfile
@@ -49,9 +50,14 @@ def initGUI(g):
         windoe.mainloop() 
 
 def button_click(sc, g, labels):
-    g.step(int(sc.get()))
-    p = g.get_population()
-    for i in range(8):
-        img = ImageTk.PhotoImage(p[i])
-        labels[i].configure(image = img)
-        labels[i].image = img
+    
+    for i in range(int(sc.get())):
+        g.step(1)
+        
+        p = g.get_population()
+        
+        for i in range(8):
+            img = ImageTk.PhotoImage(p[i])
+            labels[i].configure(image = img)
+            labels[i].image = img
+        
