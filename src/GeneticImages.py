@@ -167,7 +167,6 @@ class GeneticImages:
         
         #weight fitness for roulette selection
         weights = self.__calc_weights()
-        print("Weights :", weights)
         
         #check to see if elitism is enabled
         if self.elitism_enabled:

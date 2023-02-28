@@ -22,7 +22,7 @@ class CircleFitnessFunction(FitnessFunctionInterface):
         pix.sort()
         
         #Calculate Fitness at given Bands
-        for i in range(10, 50, band_size):
+        for i in range(60, 70, band_size):
             all_pix = len(pix)
             num = 0 #number of pixels in a given band
             
@@ -37,6 +37,7 @@ class CircleFitnessFunction(FitnessFunctionInterface):
             #approximate number of pixels that should be outside this ring
             approx_white = (m.size[0] * m.size[1]) - approx_col
                     
+            #percent filled in a given ring - percent of whitespace filled with pixels
             cur_fit = (num / approx_col) - ((all_pix - num) / approx_white)
             #print("Band:", i, "Values: ", all_pix, num, cur_fit)
             
