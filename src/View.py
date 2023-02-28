@@ -1,10 +1,8 @@
 
 import tkinter as tk
-import time
 from tkinter import *
-from tkinter import filedialog
 from tkinter.filedialog import askopenfile
-from PIL import Image, ImageTk
+from PIL import ImageTk
 
 def initGUI(g):
         # Creating window color is not white so we can see the images
