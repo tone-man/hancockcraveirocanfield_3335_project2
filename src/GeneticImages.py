@@ -14,7 +14,7 @@ class GeneticImages:
         self.pop_size = p
         self.mix_number = 2
         self.mutation_chance = 0.1 #Odds of single gene flipping
-        self.mutation_rate = 0.1 #Odds of a child being born with mutation
+        self.mutation_rate = 0.5 #Odds of a child being born with mutation
         self.evolution_step = 0
         self.fitness_func = f
         self.IMAGE_SIZE = 200
@@ -119,36 +119,39 @@ class GeneticImages:
 
     def __mutate(self, c: Image):
         
-        for x in range(c.size[0]):
-            for y in range(c.size[1]):
-                r = random.random()
-                
-                #if pix gets lucky
-                if r < self.mutation_chance:
-                    pix = c.getpixel(xy=(x, y))
-
-                    #Non white pixels -> white
-                    if pix[0] != 255 or pix[1] != 255 or pix[2] != 255:
-                        c.putpixel(xy=(x, y), value=(255,255,255))
-                    else:
-                        c.putpixel(xy=(x, y), value= self.__rand_pix())                
+        mode = random.randint(0, 1)
+        
+        if(mode == 0):
+            for x in range(c.size[0]):
+                for y in range(c.size[1]):
+                    r = random.random()
                     
-        #shift pixels around
-        for x in range(c.size[0]):
-            for y in range(c.size[1]):
-            
-                x_off = random.randint(-1, 1)
-                y_off = random.randint(-1, 1)
-                pix = c.getpixel(xy=(x,y))
+                    #if pix gets lucky
+                    if r < self.mutation_chance:
+                        pix = c.getpixel(xy=(x, y))
+
+                        #Non white pixels -> white
+                        if pix[0] != 255 or pix[1] != 255 or pix[2] != 255:
+                            c.putpixel(xy=(x, y), value=(255,255,255))
+                        #else:
+                            #c.putpixel(xy=(x, y), value= self.__rand_pix())                
+        elif(mode == 1):                
+            #shift pixels around
+            for x in range(c.size[0]):
+                for y in range(c.size[1]):
                 
-                if x + x_off < 0 or x + x_off >= self.IMAGE_SIZE:
-                    x_off = 0
-                if y + y_off < 0 or y + y_off >= self.IMAGE_SIZE:
-                    y_off = 0
-                
-                temp = c.getpixel(xy=(x + x_off, y + y_off))
-                c.putpixel(xy=(x + x_off, y + y_off), value=pix)
-                c.putpixel(xy=(x, y), value=temp)
+                    x_off = random.randint(-5, 5)
+                    y_off = random.randint(-5, 5)
+                    pix = c.getpixel(xy=(x,y))
+                    
+                    if x + x_off < 0 or x + x_off >= self.IMAGE_SIZE:
+                        x_off = -x_off
+                    if y + y_off < 0 or y + y_off >= self.IMAGE_SIZE:
+                        y_off = -y_off
+                    
+                    #temp = c.getpixel(xy=(x + x_off, y + y_off))
+                    c.putpixel(xy=(x + x_off, y + y_off), value=pix)
+                    #c.putpixel(xy=(x, y), value=temp)
 
     def __step(self):
         population2 = [] #new array to hold offspring 
@@ -219,3 +222,9 @@ class GeneticImages:
             
     def __rand_pix(self):
         return (random.randint(0,255) , random.randint(0,255), random.randint(0,255) )
+    
+    def __calc_dist(self, src, target):
+        return math.sqrt((src[0]-target[0])**2 + (src[1]-target[1])**2)
+    
+    def __calc_slope(self, src, target):
+        return (src[0] - target[0], src[1] - target[1])

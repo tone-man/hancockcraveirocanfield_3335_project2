@@ -8,7 +8,7 @@ class CircleFitnessFunction(FitnessFunctionInterface):
         pix = [] #Array of non-white pixel distances
         sz = m.size
         center = (sz[0]/2, sz[1]/2)
-        band_size = 20 #amount of pixels in a given circle
+        band_size = 10 #amount of pixels in a given circle
         fitness = None
         
         #Calculate distance of all non-white pixels
@@ -22,7 +22,7 @@ class CircleFitnessFunction(FitnessFunctionInterface):
         pix.sort()
         
         #Calculate Fitness at given Bands
-        for i in range(60, 70, band_size):
+        for i in range(50, 70, band_size):
             all_pix = len(pix)
             num = 0 #number of pixels in a given band
             
