@@ -13,7 +13,7 @@ class GeneticImages:
         self.fitness = [None] * p #parrallel array of fitness values
         self.pop_size = p
         self.mix_number = 2
-        self.mutation_chance = 0.75 #Odds of single gene flipping
+        self.mutation_chance = 0.1 #Odds of single gene flipping
         self.mutation_rate = 0.1 #Odds of a child being born with mutation
         self.evolution_step = 0
         self.fitness_func = f
@@ -131,9 +131,7 @@ class GeneticImages:
                     if pix[0] != 255 or pix[1] != 255 or pix[2] != 255:
                         c.putpixel(xy=(x, y), value=(255,255,255))
                     else:
-                        c.putpixel(xy=(x, y), value= self.__rand_pix())
-                        
-                        
+                        c.putpixel(xy=(x, y), value= self.__rand_pix())                
                     
         #for i in range(1000):
             #x = random.randint(0, 199)
@@ -141,20 +139,21 @@ class GeneticImages:
         
             #c.putpixel(xy=(x,y), value = (255, 255, 255))
         
-        #for i in range(1000):
-            #x = random.randint(0, 199)
-            #y = random.randint(0, 199)
-            #x_off = random.randint(-1, 1)
-            #y_off = random.randint(-1, 1)
-            #pix = c.getpixel(xy=(x,y))
+        for i in range(1000):
+            x = random.randint(0, 199)
+            y = random.randint(0, 199)
+            x_off = random.randint(-1, 1)
+            y_off = random.randint(-1, 1)
+            pix = c.getpixel(xy=(x,y))
             
-            #if x + x_off < 0 or x + x_off >= self.IMAGE_SIZE:
-                #x_off = 0
-            #if y + y_off < 0 or y + y_off >= self.IMAGE_SIZE:
-                #y_off = 0
+            if x + x_off < 0 or x + x_off >= self.IMAGE_SIZE:
+                x_off = 0
+            if y + y_off < 0 or y + y_off >= self.IMAGE_SIZE:
+                y_off = 0
             
-            #c.putpixel(xy=(x + x_off, y + y_off), value=pix)
-            #c.putpixel(xy=(x, y), value=(255, 255,255))
+            temp = c.getpixel(xy=(x + x_off, y + y_off))
+            c.putpixel(xy=(x + x_off, y + y_off), value=pix)
+            c.putpixel(xy=(x, y), value=temp)
 
     def __step(self):
         population2 = [] #new array to hold offspring 
