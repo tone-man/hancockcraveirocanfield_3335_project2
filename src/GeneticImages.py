@@ -1,4 +1,5 @@
-from FunctionInterfaces import FitnessFunctionInterface
+from FunctionInterfaces import FitnessFunctionInterface, MutationFunctionInterface
+from MutationFunctions import Mutator
 from PIL import Image
 import random
 
@@ -8,16 +9,24 @@ class GeneticImages:
     that will evolve to a given fitness function.
     '''
 
-    def __init__(self, f: FitnessFunctionInterface, p: int):
-        self.population = [None] * p #List of dictionaries
-        self.fitness = [None] * p #parrallel array of fitness values
-        self.pop_size = p
-        self.mix_number = 2
-        self.mutation_chance = 0.1 #Odds of single gene flipping
-        self.mutation_rate = 0.5 #Odds of a child being born with mutation
-        self.evolution_step = 0
-        self.fitness_func = f
+    def __init__(self, f: FitnessFunctionInterface, m: [MutationFunctionInterface], p: int):
+        
+        #Basic Variables
         self.IMAGE_SIZE = 200
+        self.population = [None] * p #List of Images
+        self.pop_size = p
+        self.evolution_step = 0
+                
+        #Cross Breeding Variables
+        self.mix_number = 2
+        
+        #Mutation Stuff
+        self.mutators = m #array of mutators to be selected at random     
+        self.mutation_rate = 0.5 #Odds of a child being born with mutation
+        
+        #Fitness Stuff
+        self.fitness = [None] * p #parrallel array of fitness values
+        self.fitness_func = f
         
         #Elitism Stuff
         self.elitism_enabled = True
@@ -50,11 +59,8 @@ class GeneticImages:
             return True
         return False
     
-    #def setPopulationSize(self):
-        #pass
-
-    #def setFitnessFunction(self):
-        #pass
+    def add_mutator(self, m: Mutator):
+        self.mutators.append(m)
 
     def __calc_fittness(self, m: Image) -> float:
         return self.fitness_func.calc_fitness(m)
@@ -119,40 +125,9 @@ class GeneticImages:
 
     def __mutate(self, c: Image):
         
-        mode = random.randint(0, 1)
-        
-        if(mode == 0):
-            for x in range(c.size[0]):
-                for y in range(c.size[1]):
-                    r = random.random()
-                    
-                    #if pix gets lucky
-                    if r < self.mutation_chance:
-                        pix = c.getpixel(xy=(x, y))
-
-                        #Non white pixels -> white
-                        if pix[0] != 255 or pix[1] != 255 or pix[2] != 255:
-                            c.putpixel(xy=(x, y), value=(255,255,255))
-                        #else:
-                            #c.putpixel(xy=(x, y), value= self.__rand_pix())                
-        elif(mode == 1):                
-            #shift pixels around
-            for x in range(c.size[0]):
-                for y in range(c.size[1]):
-                
-                    x_off = random.randint(-5, 5)
-                    y_off = random.randint(-5, 5)
-                    pix = c.getpixel(xy=(x,y))
-                    
-                    if x + x_off < 0 or x + x_off >= self.IMAGE_SIZE:
-                        x_off = -x_off
-                    if y + y_off < 0 or y + y_off >= self.IMAGE_SIZE:
-                        y_off = -y_off
-                    
-                    #temp = c.getpixel(xy=(x + x_off, y + y_off))
-                    c.putpixel(xy=(x + x_off, y + y_off), value=pix)
-                    #c.putpixel(xy=(x, y), value=temp)
-
+        mode = random.randint(0, len(self.mutators) - 1)
+        self.mutators[mode].mutate(c)
+               
     def __step(self):
         population2 = [] #new array to hold offspring 
 

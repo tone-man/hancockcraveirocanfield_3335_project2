@@ -36,6 +36,23 @@ class MutationFunctionInterface:
         Arguments:
         m -> Image: Member of the image population
         
-        Returns Image: altered image
+        Returns -> Image: altered image
+        '''
+        raise NotImplementedError()
+
+class CrossBreedFunctionInterface():
+    '''
+    Inteface to create custom breeding functions. Do note that parents can be of any length.
+    '''
+    
+    def cross_breed(self, chance, p) -> Image:
+        '''
+        Crosses parents into on offspring.
+        
+        Arguments:
+        chance -> Odds of this mutation happening, this comes from GenticImages.mutation_rate  
+        p -> List of images to use as a base
+        
+        Return -> Image: composite image
         '''
         raise NotImplementedError()
