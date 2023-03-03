@@ -33,11 +33,14 @@ class GeneticImages:
         self.elite_count = int(p / 2) # defaults to half
 
         for i in range(self.pop_size):
-            m = Image.new(mode="RGB", size= (self.IMAGE_SIZE, self.IMAGE_SIZE ), color= (255 , 255, 255))
+            m = Image.new(mode="RGB", size= (self.IMAGE_SIZE, self.IMAGE_SIZE ), color= (255, 255, 255))
 
             for x in range(200):
                 for y in range(200):
-                    m.putpixel(xy = (x,y), value = self.__rand_pix())
+                    r = random.random()
+                    
+                    if(r < 0.2):
+                        m.putpixel(xy = (x,y), value = self.__rand_pix())
             
             self.population[i] = m
 

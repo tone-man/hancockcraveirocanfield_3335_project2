@@ -4,12 +4,17 @@ import FitnessFunctions as ff
 import MutationFunctions as mut
 import PIL
 
+#Decide a fitness function to use
 f = ff.CircleFitnessFunction()
 
+#Select mutator methods
 m = []
-m.append(mut.FlipMutator(0.1))
-m.append(mut.DuplicateMutator(0.1, 5))
+m.append(mut.FlipMutator(0.01))
+m.append(mut.SwapMutator(0.01))
+m.append(mut.NearSwapMutator(0.01, 2))
 
+#Create a geneticImage object
 g = GeneticImages.GeneticImages(f, m, 8)
 
+#Use GUI to work with it
 v.initGUI(g)
