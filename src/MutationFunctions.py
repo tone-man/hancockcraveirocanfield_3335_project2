@@ -189,3 +189,25 @@ class NearSwapMutator(RangeSwapMutator):
                     
                     m.putpixel(xy=xy2, value=pix)
                     m.putpixel(xy=xy1, value=pix2)
+                    
+class WhiteOutMutator(Mutator):
+    '''
+    Whites out pixel ONLY
+    '''
+    def __init__(self, r):
+        super().__init__(r)
+    
+    def mutate(self, m):
+        
+        for x in range(m.size[0]):
+            for y in range(m.size[1]):
+                r = random.random()
+                
+                #if pix gets lucky
+                if r < self.rate:
+                    pix = m.getpixel(xy=(x, y))
+
+                    #Non white pixels -> white
+                    if pix[0] != 255 or pix[1] != 255 or pix[2] != 255:
+                        m.putpixel(xy=(x, y), value=(255,255,255))
+

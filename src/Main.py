@@ -9,10 +9,9 @@ f = ff.CircleFitnessFunction()
 
 #Select mutator methods
 m = []
-m.append(mut.FlipMutator(0.01))
+
 m.append(mut.SwapMutator(0.01))
 m.append(mut.NearSwapMutator(0.01, 2))
-
 #Create a geneticImage object
 g = GeneticImages.GeneticImages(f, m, 8)
 
